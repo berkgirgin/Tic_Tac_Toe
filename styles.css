@@ -1,0 +1,32 @@
+html,
+body {
+  background-color: lightgray;
+  font: sans-serif;
+}
+
+.container_gameboard {
+  background-color: white;
+  border: 16px solid salmon;
+  width: 500px;
+  height: 500px;
+  padding: 2px;
+  box-sizing: border-box;
+
+  display: grid;
+  grid-gap: 1px;
+}
+
+.box {
+  border: 2px solid pink;
+  min-width: 2px;
+  min-height: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+button {
+  width: 100px;
+  height: 50px;
+  border: 2px black solid;
+}
