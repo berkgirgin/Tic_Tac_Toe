@@ -2,22 +2,31 @@
 
 const container_gameboard = document.querySelector(".container_gameboard");
 // const boxes_gameboard = document.querySelectorAll(".container_gameboard .box");
-const testButton = document.querySelector(".test_button");
-testButton.addEventListener("click", function () {
-  GameboardModule.checkWinner();
-});
+// const testButton = document.querySelector(".test_button");
+// testButton.addEventListener("click", function () {
+//   GameboardModule.checkWinner();
+// });
 
-const startButton = document.querySelector(".start_game");
-startButton.addEventListener("click", function () {
-  GameFlowModule.startNewGame();
-});
-const viewGameboardButton = document.querySelector(".view_gameboard");
-viewGameboardButton.addEventListener("click", function () {
-  console.log(GameboardModule.gameboard);
-});
+// const startButton = document.querySelector(".start_game");
+// startButton.addEventListener("click", function () {
+//   GameFlowModule.startNewGame();
+// });
+// const viewGameboardButton = document.querySelector(".view_gameboard");
+// viewGameboardButton.addEventListener("click", function () {
+//   console.log(GameboardModule.gameboard);
+// });
 
-const statusMessage = document.querySelector(".winner_status");
+// const overlay = document.querySelector(".overlay_for_pop_up");
+// const popUp = document.querySelector(".end_game_pop_up");
+// const statusMessage = document.querySelector(".winner_status");
+// const newGameButton = document.querySelector(
+//   ".end_game_pop_up .new_game_button"
+// );
+// newGameButton.addEventListener("click", function () {
+//   GameFlowModule.startNewGame();
+// });
 
+// *** **************** *** //
 // *** Gameboard Module > start *** //
 // *** **************** *** //
 const GameboardModule = (function Gameboard() {
@@ -43,7 +52,7 @@ const GameboardModule = (function Gameboard() {
 
     container_gameboard.setAttribute(
       "style",
-      `grid-template-columns: repeat(${dimension}, 1fr); grid-template-columns: repeat(${dimension}, 1fr)`
+      `grid-template-columns: repeat(${dimension}, minmax(60px, 1fr));grid-auto-rows: 1fr`
     );
 
     for (let i = 0; i < dimension ** 2; i++) {
@@ -73,11 +82,32 @@ const GameboardModule = (function Gameboard() {
         if (checkWinner(input_X_or_O) !== false) {
           let whoIsWinner = checkWinner(input_X_or_O); // "X","O" or "draw"
           GameFlowModule.showEndGameResult(whoIsWinner);
+          GameFlowModule.isTurnPlayerX = true;
+          checkPlayerFocus(GameFlowModule.isTurnPlayerX);
           return;
         }
         GameFlowModule.isTurnPlayerX = !GameFlowModule.isTurnPlayerX;
+        checkPlayerFocus(GameFlowModule.isTurnPlayerX);
         console.log("inside playTurn" + gameboard);
       }
+    }
+  }
+
+  function checkPlayerFocus(isTurnPlayerX) {
+    console.log("sa");
+    const player_1_image = document.querySelector(".player_1 img");
+    const player_2_image = document.querySelector(".player_2 img");
+
+    if (isTurnPlayerX) {
+      player_1_image.classList.add("active");
+      if (player_2_image.classList.contains("active")) {
+        player_2_image.classList.remove("active");
+      }
+    } else {
+      if (player_1_image.classList.contains("active")) {
+        player_1_image.classList.remove("active");
+      }
+      player_2_image.classList.add("active");
     }
   }
 
@@ -122,6 +152,7 @@ const GameboardModule = (function Gameboard() {
     displayGameboardContent,
     createGameboardGrids,
     checkWinner,
+    checkPlayerFocus,
   };
 })();
 // *** Gameboard Module > end *** //
@@ -134,9 +165,23 @@ const GameboardModule = (function Gameboard() {
 // }
 
 const GameFlowModule = (function () {
-  let isTurnPlayerX;
+  const overlay = document.querySelector(".overlay_for_pop_up");
+  const popUp = document.querySelector(".end_game_pop_up");
+  const statusMessage = document.querySelector(".winner_status");
+  const statusImage = document.querySelector(".end_game_pop_up .winner_image");
+  const newGameButton = document.querySelector(
+    ".end_game_pop_up .new_game_button"
+  );
+  newGameButton.addEventListener("click", function () {
+    startNewGame();
+  });
+
+  let isTurnPlayerX = true;
+
   function startNewGame() {
     this.isTurnPlayerX = true;
+    GameboardModule.checkPlayerFocus(isTurnPlayerX);
+
     console.log(isTurnPlayerX);
     for (let i = 0; i < 9; i++) {
       GameboardModule.gameboard[i] = "";
@@ -144,16 +189,33 @@ const GameFlowModule = (function () {
     GameboardModule.createGameboardGrids();
     GameboardModule.displayGameboardContent();
     statusMessage.innerHTML = "";
+    popUp.classList.remove("active");
+    overlay.classList.remove("active");
+    statusImage.setAttribute("src", "");
+    statusImage.setAttribute("alt", "");
   }
 
   function showEndGameResult(gameResult) {
     if (gameResult === "X") {
-      statusMessage.innerHTML = "Congrats to Player1! X has won";
+      statusMessage.innerHTML = `Player"X" WON!`;
+      popUp.setAttribute(
+        "style",
+        "background-image: url(./images/soviets.jpg);"
+      );
     } else if (gameResult === "O") {
-      statusMessage.innerHTML = "Congrats to Player2! 0 has won";
+      statusMessage.innerHTML = `Player"0" WON!`;
+      popUp.setAttribute(
+        "style",
+        "background-image: url(./images/allies.jpg);"
+      );
     } else if (gameResult === "draw") {
-      statusMessage.innerHTML = "It has been a draw!";
+      statusMessage.innerHTML = `It has been a draw!`;
+      popUp.setAttribute("style", "background-image: none;");
+      statusImage.setAttribute("src", "./images/handshake-heart-64.png");
+      statusImage.setAttribute("alt", "handshake");
     }
+    popUp.classList.add("active");
+    overlay.classList.add("active");
   }
 
   return { isTurnPlayerX, startNewGame, showEndGameResult };

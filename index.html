@@ -8,13 +8,43 @@
   </head>
 
   <body>
-    <h1>Tic Tac Toe</h1>
-    <div class="winner_status"></div>
+    <div class="main_container">
+      <div class="overlay_for_pop_up"></div>
+      <div class="end_game_pop_up">
+        <div class="winner_status"></div>
+        <img class="winner_image" src="" alt="" />
+        <button class="new_game_button">New Game</button>
+      </div>
+      <header class="header_container">
+        <img src="./images/soldier-64.png" alt="soldier" />
+        <h1>Tic Tac Toe</h1>
+        <img src="./images/soldier-64.png" alt="soldier" />
+      </header>
+      <div class="main_content_container">
+        <div class="player_container player_1">
+          <div>Player "X"</div>
+          <img class="img" src="./images/darth-vader-64.png" alt="tank" />
+        </div>
+        <div class="container_gameboard"></div>
+        <div class="player_container player_2">
+          <div>Player "O"</div>
+          <img class="img" src="./images/baby-yoda-64.png" alt="helicopter" />
+        </div>
+      </div>
+      <!-- <div>
+        <button class="test_button">isGameOver</button>
+        <button class="start_game">Start Game</button>
+        <button class="view_gameboard">Console log gameboard</button>
+      </div> -->
+    </div>
 
-    <div class="container_gameboard"></div>
-    <button class="test_button">isGameOver</button>
-    <button class="start_game">Start Game</button>
-    <button class="view_gameboard">Console log gameboard</button>
+    <footer>
+      This is a project where I practiced&nbsp;
+      <em>factory functions</em>&nbsp;and&nbsp; <em>modules</em>.
+      <a href="https://berkgirgin.github.io/Tic_Tac_Toe/"
+        ><img src="./images/github-64.png" alt="git repo"
+      /></a>
+    </footer>
 
     <script src="./tic_tac_toe.js"></script>
   </body>
