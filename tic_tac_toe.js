@@ -1,36 +1,9 @@
-// PROJECT STARTS FROM HERE //
-
-const container_gameboard = document.querySelector(".container_gameboard");
-// const boxes_gameboard = document.querySelectorAll(".container_gameboard .box");
-// const testButton = document.querySelector(".test_button");
-// testButton.addEventListener("click", function () {
-//   GameboardModule.checkWinner();
-// });
-
-// const startButton = document.querySelector(".start_game");
-// startButton.addEventListener("click", function () {
-//   GameFlowModule.startNewGame();
-// });
-// const viewGameboardButton = document.querySelector(".view_gameboard");
-// viewGameboardButton.addEventListener("click", function () {
-//   console.log(GameboardModule.gameboard);
-// });
-
-// const overlay = document.querySelector(".overlay_for_pop_up");
-// const popUp = document.querySelector(".end_game_pop_up");
-// const statusMessage = document.querySelector(".winner_status");
-// const newGameButton = document.querySelector(
-//   ".end_game_pop_up .new_game_button"
-// );
-// newGameButton.addEventListener("click", function () {
-//   GameFlowModule.startNewGame();
-// });
-
 // *** **************** *** //
 // *** Gameboard Module > start *** //
 // *** **************** *** //
 const GameboardModule = (function Gameboard() {
   const gameboard = ["", "", "", "", "", "", "", "", "8s"];
+  const container_gameboard = document.querySelector(".container_gameboard");
 
   function displayGameboardContent() {
     const dimension = 3;
@@ -76,9 +49,6 @@ const GameboardModule = (function Gameboard() {
       if (box.classList.contains(`box${i}`) && gameboard[i] === "") {
         gameboard[i] = input_X_or_O;
         displayGameboardContent();
-        console.log("isTurnPlayerX: " + GameFlowModule.isTurnPlayerX);
-        // checkWinner(input_X_or_O);
-        console.log("winning status is: " + checkWinner(input_X_or_O));
         if (checkWinner(input_X_or_O) !== false) {
           let whoIsWinner = checkWinner(input_X_or_O); // "X","O" or "draw"
           GameFlowModule.showEndGameResult(whoIsWinner);
@@ -88,13 +58,11 @@ const GameboardModule = (function Gameboard() {
         }
         GameFlowModule.isTurnPlayerX = !GameFlowModule.isTurnPlayerX;
         checkPlayerFocus(GameFlowModule.isTurnPlayerX);
-        console.log("inside playTurn" + gameboard);
       }
     }
   }
 
   function checkPlayerFocus(isTurnPlayerX) {
-    console.log("sa");
     const player_1_image = document.querySelector(".player_1 img");
     const player_2_image = document.querySelector(".player_2 img");
 
@@ -112,9 +80,6 @@ const GameboardModule = (function Gameboard() {
   }
 
   function checkWinner(XorO) {
-    //checks for "X" and "O" player seperately, i.e wont make "O" player win when checking for "X" player
-    //didn't add extra effect for the rare scenario where there are two winning lines at the end(e.g one row and one column are X-X-X)
-    // TO DO: add effect to winning combination
     const winningCombos = [
       [0, 1, 2],
       [3, 4, 5],
@@ -158,12 +123,12 @@ const GameboardModule = (function Gameboard() {
 // *** Gameboard Module > end *** //
 // *** **************** *** //
 
-// function Player(name, XorO) {
-//   name = name;
-//   isXorO = XorO;
-//   return { name, isXorO };
-// }
+//
 
+//
+
+// *** Gameflow Module > start *** //
+// *** **************** *** //
 const GameFlowModule = (function () {
   const overlay = document.querySelector(".overlay_for_pop_up");
   const popUp = document.querySelector(".end_game_pop_up");
@@ -182,7 +147,6 @@ const GameFlowModule = (function () {
     this.isTurnPlayerX = true;
     GameboardModule.checkPlayerFocus(isTurnPlayerX);
 
-    console.log(isTurnPlayerX);
     for (let i = 0; i < 9; i++) {
       GameboardModule.gameboard[i] = "";
     }
@@ -220,6 +184,9 @@ const GameFlowModule = (function () {
 
   return { isTurnPlayerX, startNewGame, showEndGameResult };
 })();
+// *** **************** *** //
+// *** Gameflow Module > end *** //
+
+//
 
 GameFlowModule.startNewGame();
-console.log(GameFlowModule.isTurnPlayerX);

@@ -181,7 +181,6 @@ button {
   cursor: pointer;
 }
 button:hover {
-  /* background-color: var(--add_button_blue_background_ligther); */
   transform: scale(1.1);
 }
 
